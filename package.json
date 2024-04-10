@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .ts",
     "test": "jest --coverage",
     "format": "prettier --write \"**/**/*.ts\"",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prepare": "husky"
   },
   "author": "Alin Stefan Olaru <alin.stefan.olaru@LEGO.com>",
   "license": "Apache-2.0",
@@ -20,6 +21,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "eslint": "^8.50.0",
+    "husky": "^9.0.11",
     "jest": "^28.1.0",
     "prettier": "^3.2.5",
     "ts-jest": "^28.0.3",

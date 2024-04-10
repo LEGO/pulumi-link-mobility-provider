@@ -1,1 +1,1 @@
-# link-mobility-pulumi-provider
+# pulumi-link-mobility-provider
