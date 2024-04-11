@@ -18,8 +18,12 @@ new LinkMobilityPartnerGateDestination('link-mobility-foo-bar-destination', {
   destination: {
     url: 'https://foo.bar',
     contentType: 'application/json',
+    // Username & password
+    username: process.env.FOOBAR_USERNAME!,
+    password: process.env.FOOBAR_PASSWORD!,
+    // Custom auth with API Key header
     customParameters: {
-      'http.header1': 'x-my-secret-header:placeholders',
+      'http.header1': `x-my-secret-header:${process.env.FOOBAR_HEADER_KEY}`,
     },
   },
 });
