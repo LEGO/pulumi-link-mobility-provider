@@ -10,7 +10,7 @@ export type LinkMobilityPartnerGateDestinationProviderInputs = {
   platform: string;
 };
 
-type LinkMobilityPartnerGateDestinationInputs = {
+export type LinkMobilityPartnerGateDestinationInputs = {
   partnerGateId: string;
   destination: LinkMobilityGateDestination;
 };

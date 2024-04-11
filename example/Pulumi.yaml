@@ -1,0 +1,7 @@
+name: pulumi-link-mobility-example
+runtime: nodejs
+description: Template used to showcase the use of @lego/pulumi-link-mobility-provider
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-typescript
