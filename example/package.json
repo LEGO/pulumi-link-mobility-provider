@@ -5,8 +5,8 @@
     "@types/node": "^18"
   },
   "dependencies": {
-    "@pulumi/pulumi": "^3.0.0",
     "@lego/pulumi-link-mobility-provider": "^1.0.0",
+    "@pulumi/pulumi": "^3.0.0",
     "dotenv": "^16.4.5"
   }
 }
