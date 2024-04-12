@@ -1,0 +1,12 @@
+{
+  "name": "pulumi-link-mobility-example",
+  "main": "index.ts",
+  "devDependencies": {
+    "@types/node": "^18"
+  },
+  "dependencies": {
+    "@lego/pulumi-link-mobility-provider": "^1.0.0",
+    "@pulumi/pulumi": "^3.0.0",
+    "dotenv": "^16.4.5"
+  }
+}
