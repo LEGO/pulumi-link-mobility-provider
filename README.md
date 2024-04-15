@@ -21,7 +21,7 @@ yarn add @lego/pulumi-link-mobility-provider
 ```typescript
 const provider = new LinkMobilityPartnerGateDestinationProvider({
   username: 'myGateUsername',
-  password: process.env.LINK_MOBILITY_PASSWORD!,
+  password: 'myNotSoSecretPassword',
   url: 'https://n-eu.linkmobility.io',
   partner: 'myPartner',
   platform: 'myPlatform',
@@ -29,20 +29,22 @@ const provider = new LinkMobilityPartnerGateDestinationProvider({
 
 new LinkMobilityPartnerGateDestination('link-mobility-foo-bar-destination', {
   provider: provider,
-  partnerGateId: process.env.FOOBAR_PARTNER_GATE_ID!,
+  partnerGateId: 'myPartnerGateId',
   destination: {
     url: 'https://foo.bar',
     contentType: 'application/json',
     // Username & password
     username: 'fooBarUsername',
-    password: process.env.FOOBAR_PASSWORD!,
+    password: 'myEvenWorsePassword',
     // Custom auth with API Key header
     customParameters: {
-      'http.header1': `x-my-secret-header:${process.env.FOOBAR_HEADER_KEY}`,
+      'http.header1': `x-my-secret-header:myApiKey`,
     },
   },
 });
 ```
+
+**Tip: It is highly recommended you do _NOT_ leave your passwords/API-keys in clear text, but instead store them as secrets in your Pulumi project. For the sake of showing an example they have been left in clear text here.**
 
 ## Contribution
 
