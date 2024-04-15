@@ -2,6 +2,7 @@ import {
   LinkMobilityPartnerGateService,
   LinkMobilityPartnerGateServiceInputs,
 } from '../link-mobility.service';
+import { LinkMobilityGate, LinkMobilityGateDestination } from '../models';
 
 describe('Test suite for link mobility partner gate service', () => {
   let linkMobilityService: LinkMobilityPartnerGateService;
@@ -38,21 +39,375 @@ describe('Test suite for link mobility partner gate service', () => {
       new LinkMobilityPartnerGateService(ctorInput);
     }).toThrowError();
   });
-});
 
-it('should initialise if url is valid', async () => {
-  // Arrange
-  const ctorInput: LinkMobilityPartnerGateServiceInputs = {
-    username: 'username',
-    password: 'password',
-    url: 'http://some-url.com',
-    platform: 'platform',
-    partner: 'partner',
-  };
+  it('should initialise if url is valid', async () => {
+    // Arrange
+    const ctorInput: LinkMobilityPartnerGateServiceInputs = {
+      username: 'username',
+      password: 'password',
+      url: 'http://some-url.com',
+      platform: 'platform',
+      partner: 'partner',
+    };
 
-  // Act
-  const service = new LinkMobilityPartnerGateService(ctorInput);
+    // Act
+    const service = new LinkMobilityPartnerGateService(ctorInput);
 
-  // Assert
-  expect(service).toBeDefined();
+    // Assert
+    expect(service).toBeDefined();
+  });
+
+  it('should get auth', async () => {
+    // Act
+    // @ts-expect-error Testing a private method here - TypeScript will cry about it but JS will allow it
+    const auth = linkMobilityService.getAuth();
+
+    // Assert
+    expect(auth).toBe('Basic dXNlcm5hbWU6cGFzc3dvcmQ=');
+  });
+
+  it('should get all', async () => {
+    // Arrange
+    const response: LinkMobilityGate[] = [
+      {
+        id: 'foo',
+        acknowledge: true,
+        destinations: [],
+        gateType: 'bar',
+        platformId: 'platform',
+        platformPartnerId: 'platformPartner',
+        refId: 'ref',
+        ttl: 1000,
+        type: 'type',
+      },
+    ];
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    // Act
+    const result = await linkMobilityService.getAll();
+
+    // Assert
+    expect(result).toEqual([
+      {
+        id: 'foo',
+        acknowledge: true,
+        destinations: [],
+        gateType: 'bar',
+        platformId: 'platform',
+        platformPartnerId: 'platformPartner',
+        refId: 'ref',
+        ttl: 1000,
+        type: 'type',
+      },
+    ]);
+  });
+
+  it('should get by id', async () => {
+    // Arrange
+    const response: LinkMobilityGate = {
+      id: 'foo',
+      acknowledge: true,
+      destinations: [],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    };
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    // Act
+    const result = await linkMobilityService.getById('foo');
+
+    // Assert
+    expect(result).toEqual({
+      id: 'foo',
+      acknowledge: true,
+      destinations: [],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    });
+  });
+
+  it('should create destination if not exists', async () => {
+    // Arrange
+    const response: LinkMobilityGate = {
+      id: 'foo',
+      acknowledge: true,
+      destinations: [
+        {
+          contentType: 'application/json',
+          url: 'https://bar.foo',
+          username: 'username',
+          password: 'password',
+        },
+      ],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    };
+    const destination: LinkMobilityGateDestination = {
+      contentType: 'application/json',
+      url: 'https://foo.bar',
+      username: 'username',
+      password: 'password',
+    };
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+
+    // Act
+    await linkMobilityService.createOrUpdateDestination('foo', destination, false);
+
+    // Assert
+    expect(mockFetch).toHaveBeenCalledWith(
+      'http://some-url.com/gate/partnergate/platform/platform/partner/partner/id/foo',
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: 'foo',
+          acknowledge: true,
+          destinations: [
+            {
+              contentType: 'application/json',
+              url: 'https://bar.foo',
+              username: 'username',
+              password: 'password',
+            },
+            {
+              contentType: 'application/json',
+              url: 'https://foo.bar',
+              username: 'username',
+              password: 'password',
+            },
+          ],
+          gateType: 'bar',
+          platformId: 'platform',
+          platformPartnerId: 'platformPartner',
+          refId: 'ref',
+          ttl: 1000,
+          type: 'type',
+        }),
+      }
+    );
+  });
+
+  it('should throw error if destination exists and overwrite is false', async () => {
+    // Arrange
+    const response: LinkMobilityGate = {
+      id: 'foo',
+      acknowledge: true,
+      destinations: [
+        {
+          contentType: 'application/json',
+          url: 'https://foo.bar',
+          username: 'username',
+          password: 'password',
+        },
+      ],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    };
+    const destination: LinkMobilityGateDestination = {
+      contentType: 'application/json',
+      url: 'https://foo.bar',
+      username: 'username',
+      password: 'password',
+    };
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+
+    // Act & Assert
+    await expect(
+      linkMobilityService.createOrUpdateDestination('foo', destination, false)
+    ).rejects.toThrowError('Can not create destination as it already exists.');
+  });
+
+  it('should update the destination if it exists', async () => {
+    // Arrange
+    const response: LinkMobilityGate = {
+      id: 'foo',
+      acknowledge: true,
+      destinations: [
+        {
+          contentType: 'application/json',
+          url: 'https://foo.bar',
+          username: 'username',
+          password: 'password',
+        },
+      ],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    };
+    const destination: LinkMobilityGateDestination = {
+      contentType: 'application/json',
+      url: 'https://foo.bar',
+      username: 'username-new',
+      password: 'password-new',
+    };
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+
+    // Act
+    await linkMobilityService.createOrUpdateDestination('foo', destination, true);
+
+    // Assert
+    expect(mockFetch).toHaveBeenCalledWith(
+      'http://some-url.com/gate/partnergate/platform/platform/partner/partner/id/foo',
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: 'foo',
+          acknowledge: true,
+          destinations: [
+            {
+              contentType: 'application/json',
+              url: 'https://foo.bar',
+              username: 'username-new',
+              password: 'password-new',
+            },
+          ],
+          gateType: 'bar',
+          platformId: 'platform',
+          platformPartnerId: 'platformPartner',
+          refId: 'ref',
+          ttl: 1000,
+          type: 'type',
+        }),
+      }
+    );
+  });
+
+  it('should delete destination', async () => {
+    // Arrange
+    const response: LinkMobilityGate = {
+      id: 'foo',
+      acknowledge: true,
+      destinations: [
+        {
+          contentType: 'application/json',
+          url: 'https://foo.bar',
+          username: 'username',
+          password: 'password',
+        },
+        {
+          contentType: 'application/json',
+          url: 'https://bar.foo',
+          username: 'username',
+          password: 'password',
+        },
+      ],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    };
+    const destination: LinkMobilityGateDestination = {
+      contentType: 'application/json',
+      url: 'https://foo.bar',
+      username: 'username',
+      password: 'password',
+    };
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+
+    // Act
+    await linkMobilityService.deleteDestination('foo', destination);
+
+    // Assert
+    expect(mockFetch).toHaveBeenCalledWith(
+      'http://some-url.com/gate/partnergate/platform/platform/partner/partner/id/foo',
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: 'foo',
+          acknowledge: true,
+          destinations: [
+            {
+              contentType: 'application/json',
+              url: 'https://bar.foo',
+              username: 'username',
+              password: 'password',
+            },
+          ],
+          gateType: 'bar',
+          platformId: 'platform',
+          platformPartnerId: 'platformPartner',
+          refId: 'ref',
+          ttl: 1000,
+          type: 'type',
+        }),
+      }
+    );
+  });
+
+  it('should do nothing if trying to delete destination that doesnt exist', async () => {
+    // Arrange
+    const response: LinkMobilityGate = {
+      id: 'foo',
+      acknowledge: true,
+      destinations: [
+        {
+          contentType: 'application/json',
+          url: 'https://bar.foo',
+          username: 'username',
+          password: 'password',
+        },
+      ],
+      gateType: 'bar',
+      platformId: 'platform',
+      platformPartnerId: 'platformPartner',
+      refId: 'ref',
+      ttl: 1000,
+      type: 'type',
+    };
+    const destination: LinkMobilityGateDestination = {
+      contentType: 'application/json',
+      url: 'https://foo.bar',
+      username: 'username',
+      password: 'password',
+    };
+    mockFetch.mockResolvedValue({ json: () => response });
+
+    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+
+    // Act
+    await linkMobilityService.deleteDestination('foo', destination);
+
+    // Assert
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
 });
