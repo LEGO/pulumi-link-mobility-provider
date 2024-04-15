@@ -5,16 +5,16 @@ import {
 import 'dotenv/config';
 
 const provider = new LinkMobilityPartnerGateDestinationProvider({
-  username: process.env.USERNAME!,
-  password: process.env.PASSWORD!,
-  url: 'https://XX.linkmobility.io',
-  partner: '0000',
-  platform: 'XXXX',
+  username: process.env.LINK_MOBILITY_USERNAME!,
+  password: process.env.LINK_MOBILITY_PASSWORD!,
+  url: process.env.LINK_MOBILITY_URL!,
+  partner: process.env.LINK_MOBILITY_PARTNER!,
+  platform: process.env.LINK_MOBILITY_PLATFORM!,
 });
 
 new LinkMobilityPartnerGateDestination('link-mobility-foo-bar-destination', {
   provider: provider,
-  partnerGateId: 'xxxxx',
+  partnerGateId: process.env.FOOBAR_PARTNER_GATE_ID!,
   destination: {
     url: 'https://foo.bar',
     contentType: 'application/json',

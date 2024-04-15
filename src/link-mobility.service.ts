@@ -16,6 +16,12 @@ export class LinkMobilityPartnerGateService {
   constructor(inputs: LinkMobilityPartnerGateServiceInputs) {
     this.username = inputs.username;
     this.password = inputs.password;
+    const urlRegex = new RegExp('^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?');
+    if (!urlRegex.test(inputs.url)) {
+      throw new Error(
+        'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?'
+      );
+    }
     this.url = `${inputs.url}/gate/partnergate/platform/${inputs.platform}/partner/${inputs.partner}`;
   }
 
@@ -45,7 +51,11 @@ export class LinkMobilityPartnerGateService {
     return await response.json();
   }
 
-  public async createOrUpdateDestination(gateId: string, destination: LinkMobilityGateDestination) {
+  public async createOrUpdateDestination(
+    gateId: string,
+    destination: LinkMobilityGateDestination,
+    overwrite: boolean
+  ) {
     const gate: LinkMobilityGate = await this.getById(gateId);
 
     const destinationIndex = gate.destinations.findIndex((d) => d.url === destination.url);
@@ -53,6 +63,9 @@ export class LinkMobilityPartnerGateService {
     if (destinationIndex === -1) {
       gate.destinations.push(destination);
     } else {
+      if (!overwrite) {
+        throw new Error('Can not create destination as it already exists.');
+      }
       gate.destinations[destinationIndex] = destination;
     }
 

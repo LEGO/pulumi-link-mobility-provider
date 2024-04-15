@@ -1,6 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
 import { LinkMobilityPartnerGateService } from './link-mobility.service';
 import { LinkMobilityGateDestination } from './models';
+import { isLinkMobilityPartnerGateDestinationInputs } from './utils';
 
 export type LinkMobilityPartnerGateDestinationProviderInputs = {
   username: string;
@@ -29,6 +30,7 @@ export class LinkMobilityPartnerGateDestinationProvider implements pulumi.dynami
     this.partner = inputs.partner;
     this.platform = inputs.platform;
     this.url = inputs.url;
+
     this.linkMobilityService = new LinkMobilityPartnerGateService({
       username: this.username,
       password: this.password,
@@ -41,18 +43,26 @@ export class LinkMobilityPartnerGateDestinationProvider implements pulumi.dynami
   async create(
     input: LinkMobilityPartnerGateDestinationInputs
   ): Promise<pulumi.dynamic.CreateResult<LinkMobilityPartnerGateDestinationInputs>> {
-    await this.linkMobilityService.createOrUpdateDestination(
-      input.partnerGateId,
-      input.destination
-    );
-
-    return {
-      id: input.destination.url,
-      outs: {
-        partnerGateId: input.partnerGateId,
-        destination: input.destination,
-      },
+    let outputs: pulumi.dynamic.CreateResult<LinkMobilityPartnerGateDestinationInputs> = {
+      id: '',
     };
+    if (isLinkMobilityPartnerGateDestinationInputs(input)) {
+      await this.linkMobilityService.createOrUpdateDestination(
+        input.partnerGateId,
+        input.destination,
+        false
+      );
+
+      outputs = {
+        id: input.destination.url,
+        outs: {
+          partnerGateId: input.partnerGateId,
+          destination: input.destination,
+        },
+      };
+    }
+
+    return outputs;
   }
 
   async update(
@@ -60,7 +70,11 @@ export class LinkMobilityPartnerGateDestinationProvider implements pulumi.dynami
     _olds: LinkMobilityPartnerGateDestinationInputs,
     news: LinkMobilityPartnerGateDestinationInputs
   ): Promise<pulumi.dynamic.UpdateResult<LinkMobilityPartnerGateDestinationInputs>> {
-    await this.linkMobilityService.createOrUpdateDestination(news.partnerGateId, news.destination);
+    await this.linkMobilityService.createOrUpdateDestination(
+      news.partnerGateId,
+      news.destination,
+      true
+    );
 
     return {
       outs: {
