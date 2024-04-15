@@ -63,6 +63,7 @@ describe('Test suite for link mobility partner gate service', () => {
     const auth = linkMobilityService.getAuth();
 
     // Assert
+    // Base64 encoding of 'username:password' is 'dXNlcm5hbWU6cGFzc3dvcmQ='
     expect(auth).toBe('Basic dXNlcm5hbWU6cGFzc3dvcmQ=');
   });
 
