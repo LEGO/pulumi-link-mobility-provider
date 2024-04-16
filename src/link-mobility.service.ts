@@ -1,6 +1,6 @@
 import { LinkMobilityGate, LinkMobilityGateDestination } from './models';
 
-export type LinkMobilityPartnerGateServiceInputs = {
+export type LinkMobilityGateServiceInputs = {
   username: string;
   password: string;
   url: string;
@@ -8,12 +8,12 @@ export type LinkMobilityPartnerGateServiceInputs = {
   partner: string;
 };
 
-export class LinkMobilityPartnerGateService {
+export class LinkMobilityGateService {
   private username: string;
   private password: string;
   private url: string;
 
-  constructor(inputs: LinkMobilityPartnerGateServiceInputs) {
+  constructor(inputs: LinkMobilityGateServiceInputs) {
     this.username = inputs.username;
     this.password = inputs.password;
     const urlRegex = new RegExp('^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?');
@@ -29,7 +29,7 @@ export class LinkMobilityPartnerGateService {
     return `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`;
   }
 
-  public async getAll(): Promise<LinkMobilityGate[]> {
+  public async getAllGates(): Promise<LinkMobilityGate[]> {
     const response = await fetch(this.url, {
       method: 'GET',
       headers: {
@@ -40,7 +40,7 @@ export class LinkMobilityPartnerGateService {
     return await response.json();
   }
 
-  public async getById(id: string): Promise<LinkMobilityGate> {
+  public async getGateById(id: string): Promise<LinkMobilityGate> {
     const response = await fetch(`${this.url}/id/${id}`, {
       method: 'GET',
       headers: {
@@ -56,7 +56,7 @@ export class LinkMobilityPartnerGateService {
     destination: LinkMobilityGateDestination,
     overwrite: boolean
   ) {
-    const gate: LinkMobilityGate = await this.getById(gateId);
+    const gate: LinkMobilityGate = await this.getGateById(gateId);
 
     const destinationIndex = gate.destinations.findIndex((d) => d.url === destination.url);
 
@@ -80,7 +80,7 @@ export class LinkMobilityPartnerGateService {
   }
 
   public async deleteDestination(gateId: string, destination: LinkMobilityGateDestination) {
-    const gate: LinkMobilityGate = await this.getById(gateId);
+    const gate: LinkMobilityGate = await this.getGateById(gateId);
     const destinationIndex = gate.destinations.findIndex((d) => d.url === destination.url);
 
     if (destinationIndex === -1) {

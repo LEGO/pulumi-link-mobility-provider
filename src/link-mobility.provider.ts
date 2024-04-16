@@ -1,9 +1,8 @@
 import * as pulumi from '@pulumi/pulumi';
-import { LinkMobilityPartnerGateService } from './link-mobility.service';
+import { LinkMobilityGateService } from './link-mobility.service';
 import { LinkMobilityGateDestination } from './models';
-import { isLinkMobilityPartnerGateDestinationInputs } from './utils';
 
-export type LinkMobilityPartnerGateDestinationProviderInputs = {
+export type LinkMobilityGateDestinationProviderInputs = {
   username: string;
   password: string;
   url: string;
@@ -11,27 +10,27 @@ export type LinkMobilityPartnerGateDestinationProviderInputs = {
   platform: string;
 };
 
-export type LinkMobilityPartnerGateDestinationInputs = {
+export type LinkMobilityGateDestinationInputs = {
   partnerGateId: string;
   destination: LinkMobilityGateDestination;
 };
 
-export class LinkMobilityPartnerGateDestinationProvider implements pulumi.dynamic.ResourceProvider {
+export class LinkMobilityGateDestinationProvider implements pulumi.dynamic.ResourceProvider {
   private username: string;
   private password: string;
   private partner: string;
   private platform: string;
   private url: string;
-  private readonly linkMobilityService: LinkMobilityPartnerGateService;
+  private readonly linkMobilityService: LinkMobilityGateService;
 
-  constructor(inputs: LinkMobilityPartnerGateDestinationProviderInputs) {
+  constructor(inputs: LinkMobilityGateDestinationProviderInputs) {
     this.username = inputs.username;
     this.password = inputs.password;
     this.partner = inputs.partner;
     this.platform = inputs.platform;
     this.url = inputs.url;
 
-    this.linkMobilityService = new LinkMobilityPartnerGateService({
+    this.linkMobilityService = new LinkMobilityGateService({
       username: this.username,
       password: this.password,
       url: this.url,
@@ -41,35 +40,30 @@ export class LinkMobilityPartnerGateDestinationProvider implements pulumi.dynami
   }
 
   async create(
-    input: LinkMobilityPartnerGateDestinationInputs
-  ): Promise<pulumi.dynamic.CreateResult<LinkMobilityPartnerGateDestinationInputs>> {
-    let outputs: pulumi.dynamic.CreateResult<LinkMobilityPartnerGateDestinationInputs> = {
-      id: '',
-    };
-    if (isLinkMobilityPartnerGateDestinationInputs(input)) {
-      await this.linkMobilityService.createOrUpdateDestination(
-        input.partnerGateId,
-        input.destination,
-        false
-      );
+    input: LinkMobilityGateDestinationInputs
+  ): Promise<pulumi.dynamic.CreateResult<LinkMobilityGateDestinationInputs>> {
+    await this.linkMobilityService.createOrUpdateDestination(
+      input.partnerGateId,
+      input.destination,
+      false
+    );
 
-      outputs = {
-        id: input.destination.url,
-        outs: {
-          partnerGateId: input.partnerGateId,
-          destination: input.destination,
-        },
-      };
-    }
+    const outputs = {
+      id: input.destination.url,
+      outs: {
+        partnerGateId: input.partnerGateId,
+        destination: input.destination,
+      },
+    };
 
     return outputs;
   }
 
   async update(
     _id: string,
-    _olds: LinkMobilityPartnerGateDestinationInputs,
-    news: LinkMobilityPartnerGateDestinationInputs
-  ): Promise<pulumi.dynamic.UpdateResult<LinkMobilityPartnerGateDestinationInputs>> {
+    _olds: LinkMobilityGateDestinationInputs,
+    news: LinkMobilityGateDestinationInputs
+  ): Promise<pulumi.dynamic.UpdateResult<LinkMobilityGateDestinationInputs>> {
     await this.linkMobilityService.createOrUpdateDestination(
       news.partnerGateId,
       news.destination,
@@ -84,14 +78,14 @@ export class LinkMobilityPartnerGateDestinationProvider implements pulumi.dynami
     };
   }
 
-  async delete(_id: string, props: LinkMobilityPartnerGateDestinationInputs) {
+  async delete(_id: string, props: LinkMobilityGateDestinationInputs) {
     await this.linkMobilityService.deleteDestination(props.partnerGateId, props.destination);
   }
 
   async diff(
     id: string,
-    old: LinkMobilityPartnerGateDestinationInputs,
-    news: LinkMobilityPartnerGateDestinationInputs
+    old: LinkMobilityGateDestinationInputs,
+    news: LinkMobilityGateDestinationInputs
   ): Promise<pulumi.dynamic.DiffResult> {
     const shouldReplace = old.destination.url !== news.destination.url;
     const hasChanges = JSON.stringify(old.destination) !== JSON.stringify(news.destination);

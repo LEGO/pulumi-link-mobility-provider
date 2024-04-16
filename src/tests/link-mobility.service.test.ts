@@ -1,17 +1,14 @@
-import {
-  LinkMobilityPartnerGateService,
-  LinkMobilityPartnerGateServiceInputs,
-} from '../link-mobility.service';
+import { LinkMobilityGateService, LinkMobilityGateServiceInputs } from '../link-mobility.service';
 import { LinkMobilityGate, LinkMobilityGateDestination } from '../models';
 
 describe('Test suite for link mobility partner gate service', () => {
-  let linkMobilityService: LinkMobilityPartnerGateService;
+  let linkMobilityService: LinkMobilityGateService;
   const mockFetch = jest.fn();
 
   beforeEach(async () => {
     jest.resetModules();
     global.fetch = mockFetch;
-    linkMobilityService = new LinkMobilityPartnerGateService({
+    linkMobilityService = new LinkMobilityGateService({
       username: 'username',
       password: 'password',
       url: 'http://some-url.com',
@@ -26,7 +23,7 @@ describe('Test suite for link mobility partner gate service', () => {
 
   it('should fail to initialise if url is invalid', async () => {
     // Arrange
-    const ctorInput: LinkMobilityPartnerGateServiceInputs = {
+    const ctorInput: LinkMobilityGateServiceInputs = {
       username: 'username',
       password: 'password',
       url: 'invalid-url',
@@ -36,13 +33,13 @@ describe('Test suite for link mobility partner gate service', () => {
 
     // Act & Assert
     expect(() => {
-      new LinkMobilityPartnerGateService(ctorInput);
+      new LinkMobilityGateService(ctorInput);
     }).toThrowError();
   });
 
   it('should initialise if url is valid', async () => {
     // Arrange
-    const ctorInput: LinkMobilityPartnerGateServiceInputs = {
+    const ctorInput: LinkMobilityGateServiceInputs = {
       username: 'username',
       password: 'password',
       url: 'http://some-url.com',
@@ -51,7 +48,7 @@ describe('Test suite for link mobility partner gate service', () => {
     };
 
     // Act
-    const service = new LinkMobilityPartnerGateService(ctorInput);
+    const service = new LinkMobilityGateService(ctorInput);
 
     // Assert
     expect(service).toBeDefined();
@@ -85,7 +82,7 @@ describe('Test suite for link mobility partner gate service', () => {
     mockFetch.mockResolvedValue({ json: () => response });
 
     // Act
-    const result = await linkMobilityService.getAll();
+    const result = await linkMobilityService.getAllGates();
 
     // Assert
     expect(result).toEqual([
@@ -119,7 +116,7 @@ describe('Test suite for link mobility partner gate service', () => {
     mockFetch.mockResolvedValue({ json: () => response });
 
     // Act
-    const result = await linkMobilityService.getById('foo');
+    const result = await linkMobilityService.getGateById('foo');
 
     // Assert
     expect(result).toEqual({
@@ -163,7 +160,7 @@ describe('Test suite for link mobility partner gate service', () => {
     };
     mockFetch.mockResolvedValue({ json: () => response });
 
-    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+    jest.spyOn(linkMobilityService, 'getGateById').mockResolvedValue(response);
 
     // Act
     await linkMobilityService.createOrUpdateDestination('foo', destination, false);
@@ -233,7 +230,7 @@ describe('Test suite for link mobility partner gate service', () => {
     };
     mockFetch.mockResolvedValue({ json: () => response });
 
-    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+    jest.spyOn(linkMobilityService, 'getGateById').mockResolvedValue(response);
 
     // Act & Assert
     await expect(
@@ -269,7 +266,7 @@ describe('Test suite for link mobility partner gate service', () => {
     };
     mockFetch.mockResolvedValue({ json: () => response });
 
-    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+    jest.spyOn(linkMobilityService, 'getGateById').mockResolvedValue(response);
 
     // Act
     await linkMobilityService.createOrUpdateDestination('foo', destination, true);
@@ -339,7 +336,7 @@ describe('Test suite for link mobility partner gate service', () => {
     };
     mockFetch.mockResolvedValue({ json: () => response });
 
-    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+    jest.spyOn(linkMobilityService, 'getGateById').mockResolvedValue(response);
 
     // Act
     await linkMobilityService.deleteDestination('foo', destination);
@@ -403,7 +400,7 @@ describe('Test suite for link mobility partner gate service', () => {
     };
     mockFetch.mockResolvedValue({ json: () => response });
 
-    jest.spyOn(linkMobilityService, 'getById').mockResolvedValue(response);
+    jest.spyOn(linkMobilityService, 'getGateById').mockResolvedValue(response);
 
     // Act
     await linkMobilityService.deleteDestination('foo', destination);
