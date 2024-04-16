@@ -30,14 +30,14 @@ describe('Test suite for Link Mobility Provider', () => {
       username: 'username',
       password: 'password',
       platform: 'platform',
-      url: 'invalid-url',
+      url: 'http://some-url.com/ending-with/',
     };
 
     // Act & Assert
     expect(() => {
       new LinkMobilityGateDestinationProvider(ctorInput);
     }).toThrowError(
-      'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?'
+      'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?$'
     );
   });
 

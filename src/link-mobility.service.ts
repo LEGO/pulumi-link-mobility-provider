@@ -16,10 +16,10 @@ export class LinkMobilityGateService {
   constructor(inputs: LinkMobilityGateServiceInputs) {
     this.username = inputs.username;
     this.password = inputs.password;
-    const urlRegex = new RegExp('^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?');
+    const urlRegex = new RegExp('^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?$');
     if (!urlRegex.test(inputs.url)) {
       throw new Error(
-        'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?'
+        'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(:[0-9]{2,4})?$'
       );
     }
     this.url = `${inputs.url}/gate/partnergate/platform/${inputs.platform}/partner/${inputs.partner}`;
