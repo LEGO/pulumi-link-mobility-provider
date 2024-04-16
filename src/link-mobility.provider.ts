@@ -48,15 +48,13 @@ export class LinkMobilityGateDestinationProvider implements pulumi.dynamic.Resou
       false
     );
 
-    const outputs = {
+    return {
       id: input.destination.url,
       outs: {
         partnerGateId: input.partnerGateId,
         destination: input.destination,
       },
     };
-
-    return outputs;
   }
 
   async update(
