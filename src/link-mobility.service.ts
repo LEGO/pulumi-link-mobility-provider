@@ -63,6 +63,11 @@ export class LinkMobilityGateService {
     if (destinationIndex === -1) {
       gate.destinations.push(destination);
     } else {
+      /**
+       * It seems normal Pulumi behaviour to not create a resource if it already exists.
+       * Unsure if we should keep this or just allow for input from the user to over-write the resource.
+       * Will keep it like this for now.
+       */
       if (!overwrite) {
         throw new Error('Can not create destination as it already exists.');
       }
