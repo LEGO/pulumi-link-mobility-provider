@@ -29,17 +29,6 @@ export class LinkMobilityGateService {
     return `Basic ${Buffer.from(`${this.username}:${this.password}`).toString('base64')}`;
   }
 
-  public async getAllGates(): Promise<LinkMobilityGate[]> {
-    const response = await fetch(this.url, {
-      method: 'GET',
-      headers: {
-        Authorization: this.getAuth(),
-      },
-    });
-
-    return await response.json();
-  }
-
   public async getGateById(id: string): Promise<LinkMobilityGate> {
     const response = await fetch(`${this.url}/id/${id}`, {
       method: 'GET',

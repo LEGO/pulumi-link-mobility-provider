@@ -64,42 +64,6 @@ describe('Test suite for link mobility partner gate service', () => {
     expect(auth).toBe('Basic dXNlcm5hbWU6cGFzc3dvcmQ=');
   });
 
-  it('should get all', async () => {
-    // Arrange
-    const response: LinkMobilityGate[] = [
-      {
-        id: 'foo',
-        acknowledge: true,
-        destinations: [],
-        gateType: 'bar',
-        platformId: 'platform',
-        platformPartnerId: 'platformPartner',
-        refId: 'ref',
-        ttl: 1000,
-        type: 'type',
-      },
-    ];
-    mockFetch.mockResolvedValue({ json: () => response });
-
-    // Act
-    const result = await linkMobilityService.getAllGates();
-
-    // Assert
-    expect(result).toEqual([
-      {
-        id: 'foo',
-        acknowledge: true,
-        destinations: [],
-        gateType: 'bar',
-        platformId: 'platform',
-        platformPartnerId: 'platformPartner',
-        refId: 'ref',
-        ttl: 1000,
-        type: 'type',
-      },
-    ]);
-  });
-
   it('should get by id', async () => {
     // Arrange
     const response: LinkMobilityGate = {
