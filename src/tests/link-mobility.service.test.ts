@@ -21,28 +21,35 @@ describe('Test suite for link mobility partner gate service', () => {
     jest.clearAllMocks();
   });
 
-  it('should fail to initialise if url is invalid', async () => {
+  it.each(['https://some-url.com/ending-with/', 'not-a-real-url'])(
+    'should fail to initialise if url is invalid',
+    async (url) => {
+      // Arrange
+      const ctorInput: LinkMobilityGateServiceInputs = {
+        username: 'username',
+        password: 'password',
+        url: url,
+        platform: 'platform',
+        partner: 'partner',
+      };
+
+      // Act & Assert
+      expect(() => {
+        new LinkMobilityGateService(ctorInput);
+      }).toThrowError();
+    }
+  );
+
+  it.each([
+    'http://some-url.com',
+    'http://www.some-other-url.org',
+    'https://actual-url.dk/with-paths',
+  ])('should initialise if url is valid', async (url) => {
     // Arrange
     const ctorInput: LinkMobilityGateServiceInputs = {
       username: 'username',
       password: 'password',
-      url: 'invalid-url',
-      platform: 'platform',
-      partner: 'partner',
-    };
-
-    // Act & Assert
-    expect(() => {
-      new LinkMobilityGateService(ctorInput);
-    }).toThrowError();
-  });
-
-  it('should initialise if url is valid', async () => {
-    // Arrange
-    const ctorInput: LinkMobilityGateServiceInputs = {
-      username: 'username',
-      password: 'password',
-      url: 'http://some-url.com',
+      url: url,
       platform: 'platform',
       partner: 'partner',
     };
