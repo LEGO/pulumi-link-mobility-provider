@@ -55,7 +55,7 @@ describe('Test suite for Link Mobility Provider', () => {
 
     const spy = jest
       .spyOn(LinkMobilityGateService.prototype, 'createOrUpdateDestination')
-      .mockImplementation(() => Promise.resolve());
+      .mockImplementation();
 
     // Act
     const result = await linkMobilityProvider.create(input);
@@ -106,7 +106,7 @@ describe('Test suite for Link Mobility Provider', () => {
     };
     const spy = jest
       .spyOn(LinkMobilityGateService.prototype, 'createOrUpdateDestination')
-      .mockImplementation(() => Promise.resolve());
+      .mockImplementation();
 
     // Act
     const result = await linkMobilityProvider.update(input.destination.url, oldInput, input);
@@ -145,7 +145,7 @@ describe('Test suite for Link Mobility Provider', () => {
 
     const spy = jest
       .spyOn(LinkMobilityGateService.prototype, 'deleteDestination')
-      .mockImplementation(() => Promise.resolve());
+      .mockImplementation();
 
     // Act
     await linkMobilityProvider.delete(input.destination.url, input);
