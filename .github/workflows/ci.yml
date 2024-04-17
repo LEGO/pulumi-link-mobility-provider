@@ -1,0 +1,15 @@
+on:
+  push:
+      branches-ignore: [main]
+
+name: CI
+jobs:
+  unit-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run unit tests  
+        run: npm test
