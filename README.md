@@ -44,7 +44,8 @@ new LinkMobilityPartnerGateDestination('link-mobility-foo-bar-destination', {
 });
 ```
 
-**Tip: It is highly recommended you do _NOT_ leave your passwords/API-keys in clear text, but instead store them as secrets in your Pulumi project. For the sake of showing an example they have been left in clear text here.**
+> [!CAUTION]
+> It is highly recommended you do _NOT_ leave your passwords/API-keys in clear text, but instead store them as secrets in your Pulumi project. For the sake of showing an example they have been left in clear text here.
 
 ## Contribution
 
