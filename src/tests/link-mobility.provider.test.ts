@@ -28,6 +28,9 @@ describe('Test suite for Link Mobility Provider', () => {
     'not-a-url-lol',
     'almost-a-url.com',
     'htpt://some-url.com',
+    'https://',
+    'www.',
+    'ftp://some-legit-url.com',
   ])('should throw an error if the URL is invalid', (url) => {
     // Arrange
     const ctorInput: LinkMobilityGateDestinationProviderInputs = {
