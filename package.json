@@ -2,7 +2,7 @@
   "name": "@lego/pulumi-link-mobility-provider",
   "version": "1.0.0",
   "description": "A custom provider used to create resources within the Link Mobility Platform",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p .",
     "lint": "eslint ./src --ext .ts",
@@ -12,6 +12,10 @@
     "release": "semantic-release",
     "prepare": "husky"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "author": "Alin Stefan Olaru <alin.stefan.olaru@LEGO.com>",
   "license": "Apache-2.0",
   "repository": {
