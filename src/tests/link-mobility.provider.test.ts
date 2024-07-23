@@ -30,14 +30,14 @@ describe('Test suite for Link Mobility Provider', () => {
       username: 'username',
       password: 'password',
       platform: 'platform',
-      url: 'http://some-url.com/ending-with/',
+      url: 'http://some.long-url.com/ending-with/',
     };
 
     // Act & Assert
     expect(() => {
       new LinkMobilityGateDestinationProvider(ctorInput);
     }).toThrowError(
-      'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://(w{3}.)?[a-zA-Z0-9-]+.[a-zA-Z]{2,}(:[0-9]{2,4})?(/[a-zA-Z0-9-]+)*$'
+      'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://(w{3}.)?([a-zA-Z0-9-.]+)(:[0-9]{2,4})?(/[a-zA-Z0-9-]+)*$. Received: "http://some.long-url.com/ending-with/"'
     );
   });
 
@@ -46,7 +46,7 @@ describe('Test suite for Link Mobility Provider', () => {
     const input: LinkMobilityGateDestinationInputs = {
       partnerGateId: 'partnerGateId',
       destination: {
-        url: 'http://some-url.com',
+        url: 'http://some.long-url.with-subtomains.com',
         contentType: 'application/json',
         username: 'username',
         password: 'password',
@@ -61,11 +61,11 @@ describe('Test suite for Link Mobility Provider', () => {
     const result = await linkMobilityProvider.create(input);
 
     // Assert
-    expect(result.id).toBe('http://some-url.com');
+    expect(result.id).toBe('http://some.long-url.with-subtomains.com');
     expect(spy).toBeCalledWith(
       'partnerGateId',
       {
-        url: 'http://some-url.com',
+        url: 'http://some.long-url.with-subtomains.com',
         contentType: 'application/json',
         username: 'username',
         password: 'password',
@@ -75,7 +75,7 @@ describe('Test suite for Link Mobility Provider', () => {
     expect(result.outs).toEqual({
       partnerGateId: 'partnerGateId',
       destination: {
-        url: 'http://some-url.com',
+        url: 'http://some.long-url.with-subtomains.com',
         contentType: 'application/json',
         username: 'username',
         password: 'password',
