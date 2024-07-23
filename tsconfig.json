@@ -10,9 +10,8 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "declaration": true,
-    "rootDir": "src",
+    "rootDir": "src"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
+  "exclude": ["example"]
 }

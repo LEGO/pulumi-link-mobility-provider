@@ -1,15 +1,57 @@
 on:
+  pull_request:
+    branches:
+      - main
   push:
-      branches-ignore: [main]
+    branches:
+      - main
 
 name: CI
 jobs:
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          scope: '@lego'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+
+  lint: 
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          scope: '@lego'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint code
+        run: yarn lint
+
   unit-tests:
     name: Run unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          scope: '@lego'
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
       - name: Run unit tests  
-        run: npm test
+        run: yarn test

@@ -1,11 +1,11 @@
 {
   "name": "@lego/pulumi-link-mobility-provider",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A custom provider used to create resources within the Link Mobility Platform",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc -p .",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint ./src --ext .ts",
     "test": "jest --coverage",
     "test:watch": "yarn test --watch",
     "format": "prettier --write \"**/**/*.ts\"",
@@ -14,11 +14,22 @@
   },
   "author": "Alin Stefan Olaru <alin.stefan.olaru@LEGO.com>",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LEGO/pulumi-link-mobility-provider.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/LEGO/pulumi-link-mobility-provider/issues"
+  },
+  "homepage": "https://github.com/LEGO/pulumi-link-mobility-provider#readme",
   "dependencies": {
-    "@pulumi/pulumi": "^3.112.0"
+    "@pulumi/pulumi": "^3.126.0"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/jest": "^28.1.0",
     "@types/node": "^18.8.3",
