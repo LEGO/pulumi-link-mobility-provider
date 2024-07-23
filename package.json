@@ -1,6 +1,6 @@
 {
   "name": "@lego/pulumi-link-mobility-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A custom provider used to create resources within the Link Mobility Platform",
   "main": "dist/index.js",
   "scripts": {
