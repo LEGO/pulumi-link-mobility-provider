@@ -23,30 +23,40 @@ describe('Test suite for Link Mobility Provider', () => {
     jest.restoreAllMocks();
   });
 
-  it('should throw an error if the URL is invalid', () => {
+  test.each([
+    'http://some.long-url.com/ending-with/',
+    'not-a-url-lol',
+    'almost-a-url.com',
+    'htpt://some-url.com',
+  ])('should throw an error if the URL is invalid', (url) => {
     // Arrange
     const ctorInput: LinkMobilityGateDestinationProviderInputs = {
       partner: 'partner',
       username: 'username',
       password: 'password',
       platform: 'platform',
-      url: 'http://some.long-url.com/ending-with/',
+      url: url,
     };
 
     // Act & Assert
     expect(() => {
       new LinkMobilityGateDestinationProvider(ctorInput);
     }).toThrowError(
-      'Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://(w{3}.)?([a-zA-Z0-9-.]+)(:[0-9]{2,4})?(/[a-zA-Z0-9-]+)*$. Received: "http://some.long-url.com/ending-with/"'
+      `Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://(w{3}.)?([a-zA-Z0-9-.]+)(:[0-9]{2,4})?(/[a-zA-Z0-9-]+)*$. Received: "${url}"`
     );
   });
 
-  it('should create a destination when providing one', async () => {
+  test.each([
+    'http://some.long-url.with-subtomains.com',
+    'https://some.long-url.with-subtomains.com/with-path',
+    'http://localhost:3000',
+    'https://www.something-fancy.righthere.com',
+  ])('should create a destination when providing one', async (url) => {
     // Arrange
     const input: LinkMobilityGateDestinationInputs = {
       partnerGateId: 'partnerGateId',
       destination: {
-        url: 'http://some.long-url.with-subtomains.com',
+        url: url,
         contentType: 'application/json',
         username: 'username',
         password: 'password',
@@ -61,11 +71,11 @@ describe('Test suite for Link Mobility Provider', () => {
     const result = await linkMobilityProvider.create(input);
 
     // Assert
-    expect(result.id).toBe('http://some.long-url.with-subtomains.com');
+    expect(result.id).toBe(url);
     expect(spy).toBeCalledWith(
       'partnerGateId',
       {
-        url: 'http://some.long-url.with-subtomains.com',
+        url: url,
         contentType: 'application/json',
         username: 'username',
         password: 'password',
@@ -75,7 +85,7 @@ describe('Test suite for Link Mobility Provider', () => {
     expect(result.outs).toEqual({
       partnerGateId: 'partnerGateId',
       destination: {
-        url: 'http://some.long-url.with-subtomains.com',
+        url: url,
         contentType: 'application/json',
         username: 'username',
         password: 'password',
