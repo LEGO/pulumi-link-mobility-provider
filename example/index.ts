@@ -1,10 +1,10 @@
 import {
-  LinkMobilityPartnerGateDestination,
-  LinkMobilityPartnerGateDestinationProvider,
+  LinkMobilityGateDestination,
+  LinkMobilityGateDestinationProvider,
 } from '@lego/pulumi-link-mobility-provider';
 import 'dotenv/config';
 
-const provider = new LinkMobilityPartnerGateDestinationProvider({
+const provider = new LinkMobilityGateDestinationProvider({
   username: process.env.LINK_MOBILITY_USERNAME!,
   password: process.env.LINK_MOBILITY_PASSWORD!,
   url: process.env.LINK_MOBILITY_URL!,
@@ -12,7 +12,7 @@ const provider = new LinkMobilityPartnerGateDestinationProvider({
   platform: process.env.LINK_MOBILITY_PLATFORM!,
 });
 
-new LinkMobilityPartnerGateDestination('link-mobility-foo-bar-destination', {
+new LinkMobilityGateDestination('link-mobility-foo-bar-destination', {
   provider: provider,
   partnerGateId: process.env.FOOBAR_PARTNER_GATE_ID!,
   destination: {

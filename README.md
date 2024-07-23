@@ -1,3 +1,7 @@
+[![CI](https://github.com/LEGO/pulumi-link-mobility-provider/actions/workflows/ci.yml/badge.svg)](https://github.com/LEGO/pulumi-link-mobility-provider/actions/workflows/ci.yml)
+[![npm version](https://badge.fury.io/js/@lego%2Fpulumi-link-mobility-provider.svg)](https://www.npmjs.com/package/@lego/pulumi-link-mobility-provider)
+[![License](https://img.shields.io/npm/l/@lego/pulumi-link-mobility-provider)](https://github.com/LEGO/pulumi-link-mobility-provider/blob/main/LICENSE)
+
 # pulumi-link-mobility-provider
 
 A pulumi custom provider that allows you to create, update and delete destinations in Link Mobility's partner gate.

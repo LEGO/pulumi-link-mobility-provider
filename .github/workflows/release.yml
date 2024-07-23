@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+  
+name: Release
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          scope: '@lego'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Request GitHub token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v2.1.0
+        with:
+          application_id: ${{ secrets.APP_INSTALLATION_ID }}
+          application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
+          NPM_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
+        run: yarn release
