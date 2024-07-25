@@ -8,7 +8,7 @@ module.exports = {
       [
         '@semantic-release/github',
         {
-          'assets': ['dist/**']
+          "successComment": "This PR is included in version ${nextRelease.version} 🎉🎉🎉",
         }
       ],
       '@semantic-release/git'
