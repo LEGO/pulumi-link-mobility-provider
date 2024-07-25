@@ -1,3 +1,9 @@
+## [1.0.4](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.3...v1.0.4) (2024-07-25)
+
+### Bug Fixes
+
+- gh token for releasing package ([#11](https://github.com/LEGO/pulumi-link-mobility-provider/issues/11)) ([112301a](https://github.com/LEGO/pulumi-link-mobility-provider/commit/112301aababbe36e8931f4e90a9a241da3227cce))
+
 ## [1.0.3](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.2...v1.0.3) (2024-07-25)
 
 ### Bug Fixes
