@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.2...v1.0.3) (2024-07-25)
+
+### Bug Fixes
+
+- **ci:** yarn cache ([#10](https://github.com/LEGO/pulumi-link-mobility-provider/issues/10)) ([9539f74](https://github.com/LEGO/pulumi-link-mobility-provider/commit/9539f746c534b01d54e8cde26e214e3403f5f23c))
+
 ## [1.0.2](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.1...v1.0.2) (2024-07-25)
 
 ### Bug Fixes
