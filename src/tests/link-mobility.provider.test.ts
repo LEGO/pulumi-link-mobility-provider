@@ -23,7 +23,7 @@ describe('Test suite for Link Mobility Provider', () => {
     jest.restoreAllMocks();
   });
 
-  test.each([
+  it.each([
     'http://some.long-url.com/ending-with/',
     'not-a-url-lol',
     'almost-a-url.com',
@@ -49,10 +49,11 @@ describe('Test suite for Link Mobility Provider', () => {
     );
   });
 
-  test.each([
+  it.each([
     'http://some.long-url.with-subtomains.com',
     'https://some.long-url.with-subtomains.com/with-path',
     'http://localhost:3000',
+    'http://localhost:3000/with-path',
     'https://www.something-fancy.righthere.com',
   ])('should create a destination when providing one', async (url) => {
     // Arrange
