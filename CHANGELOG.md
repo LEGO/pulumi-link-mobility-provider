@@ -1,3 +1,9 @@
+## [1.0.5](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.4...v1.0.5) (2024-07-26)
+
+### Reverts
+
+- Revert "fix: gh token for releasing package (#11)" (#12) ([3406951](https://github.com/LEGO/pulumi-link-mobility-provider/commit/34069517d636944fdeeebc715163b587c34b8bde)), closes [#11](https://github.com/LEGO/pulumi-link-mobility-provider/issues/11) [#12](https://github.com/LEGO/pulumi-link-mobility-provider/issues/12)
+
 ## [1.0.4](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.3...v1.0.4) (2024-07-25)
 
 ### Bug Fixes
