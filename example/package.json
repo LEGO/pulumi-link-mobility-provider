@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@lego/pulumi-link-mobility-provider": "^1.0.0",
-    "@pulumi/pulumi": "^3.0.0",
+    "@pulumi/pulumi": "^3.217.1",
     "dotenv": "^16.4.5"
   }
 }
