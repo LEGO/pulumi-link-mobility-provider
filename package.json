@@ -54,5 +54,8 @@
     "testMatch": [
       "**/*.test.ts"
     ]
+  },
+  "resolutions": {
+    "tar": "^7.5.19"
   }
 }
