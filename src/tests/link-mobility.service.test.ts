@@ -36,7 +36,7 @@ describe('Test suite for link mobility partner gate service', () => {
       // Act & Assert
       expect(() => {
         new LinkMobilityGateService(ctorInput);
-      }).toThrowError();
+      }).toThrow();
     }
   );
 
@@ -206,7 +206,7 @@ describe('Test suite for link mobility partner gate service', () => {
     // Act & Assert
     await expect(
       linkMobilityService.createOrUpdateDestination('foo', destination, false)
-    ).rejects.toThrowError('Can not create destination as it already exists.');
+    ).rejects.toThrow('Can not create destination as it already exists.');
   });
 
   it('should update the destination if it exists', async () => {

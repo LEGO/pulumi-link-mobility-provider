@@ -44,7 +44,7 @@ describe('Test suite for Link Mobility Provider', () => {
     // Act & Assert
     expect(() => {
       new LinkMobilityGateDestinationProvider(ctorInput);
-    }).toThrowError(
+    }).toThrow(
       `Invalid Link Mobility URL. URL must follow the following pattern: ^(https?|http)://(w{3}.)?([a-zA-Z0-9-.]+)(:[0-9]{2,4})?(/[a-zA-Z0-9-]+)*$. Received: "${url}"`
     );
   });
@@ -76,7 +76,7 @@ describe('Test suite for Link Mobility Provider', () => {
 
     // Assert
     expect(result.id).toBe(url);
-    expect(spy).toBeCalledWith(
+    expect(spy).toHaveBeenCalledWith(
       'partnerGateId',
       {
         url: url,
@@ -132,7 +132,7 @@ describe('Test suite for Link Mobility Provider', () => {
       username: 'username-new',
       password: 'password-new',
     });
-    expect(spy).toBeCalledWith(
+    expect(spy).toHaveBeenCalledWith(
       'partnerGateId',
       {
         url: 'http://some-url.com',
@@ -165,7 +165,7 @@ describe('Test suite for Link Mobility Provider', () => {
     await linkMobilityProvider.delete(input.destination.url, input);
 
     // Assert
-    expect(spy).toBeCalledWith('partnerGateId', {
+    expect(spy).toHaveBeenCalledWith('partnerGateId', {
       url: 'http://some-url.com',
       contentType: 'application/json',
       username: 'username',
