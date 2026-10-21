@@ -8,5 +8,8 @@
     "@lego/pulumi-link-mobility-provider": "^1.0.0",
     "@pulumi/pulumi": "^3.0.0",
     "dotenv": "^16.4.5"
+  },
+  "overrides": {
+    "tar": "^7.5.19"
   }
 }
