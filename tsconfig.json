@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "node16",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -10,7 +10,8 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "declaration": true,
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["node", "jest"]
   },
   "include": ["src"],
   "exclude": ["example"]
