@@ -1,3 +1,11 @@
+## [1.0.6](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.5...v1.0.6) (2026-10-21)
+
+
+### Bug Fixes
+
+* **deps:** bump handlebars from 4.7.9 to 4.7.10 ([#63](https://github.com/LEGO/pulumi-link-mobility-provider/issues/63)) ([4124e2c](https://github.com/LEGO/pulumi-link-mobility-provider/commit/4124e2c502102473cdca9b35c5fd926c81bd578d)), closes [#195](https://github.com/LEGO/pulumi-link-mobility-provider/issues/195)
+* disable husky in release and pin lint-staged ([#67](https://github.com/LEGO/pulumi-link-mobility-provider/issues/67)) ([8eeab00](https://github.com/LEGO/pulumi-link-mobility-provider/commit/8eeab005b77803f9afd59c6ef51e8aa28bc1fa2c))
+
 ## [1.0.5](https://github.com/LEGO/pulumi-link-mobility-provider/compare/v1.0.4...v1.0.5) (2024-07-26)
 
 ### Reverts
